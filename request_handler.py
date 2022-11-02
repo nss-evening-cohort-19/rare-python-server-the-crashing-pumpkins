@@ -1,8 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-
-from views.user_request import (create_user, login_user, get_user)
+from views import create_user, login_user, get_all_users
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -54,18 +53,20 @@ class HandleRequests(BaseHTTPRequestHandler):
         """Handle Get requests to the server"""
         self._set_headers(200)
 
-        response = {}
+        response = ''
+        resource, _ = self.parse_url()
 
         # Parse URL and store entire tuple in a variable
-        parsed = self.parse_url(self.path)
+        # parsed = self.parse_url(self.path)
 
         # If the path does not include a query parameter, continue with the original if block
-        if '?' not in self.path:
-            ( resource, id ) = parsed
+        # if '?' not in self.path:
+        #     ( resource, id ) = parsed
 
         if resource == 'users':
-            response = f"{get_user()}"
+            response = 'test response'
 
+        self.wfile.write(response.encode())
 
     def do_POST(self):
         """Make a post request to the server"""
