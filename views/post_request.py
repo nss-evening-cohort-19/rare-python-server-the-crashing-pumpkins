@@ -12,29 +12,6 @@ POSTS = [
         "approved": 1
     }]
 
-def create_post(post):
-    with sqlite3.connect('./db.sqlite3') as conn:
-        conn.row_factory = sqlite3.Row
-        db_cursor = conn.cursor()
-
-        db_cursor.execute("""
-        Insert into Users (id, category_id, title, publication_date, image_url, content, approved) values (?, ?, ?, ?, ?, ?, 1)
-        """, (
-            post['category_id'],
-            post['title'],
-            post['publication_date'],
-            post['image_url'],
-            post['content'],
-            post['approved'],
-        ))
-
-        id = db_cursor.lastrowid
-
-        return json.dumps({
-            'token': id,
-            'valid': True
-        })
-
 def get_all_posts():
     # Open a connection to the database
     with sqlite3.connect('./db.sqlite3') as conn:

@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, create_post
+from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -94,14 +94,12 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             self.wfile.write(response.encode())
 
+        new_post = None
 
+        if resource == 'posts':
+            new_post = create_post(post_body)
 
-        # new_post = None
-
-        # if resource == 'posts':
-        #     new_post = create_post(post_body)
-
-        #     self.wfile.write(f"{new_post}".encode())
+            self.wfile.write(f"{new_post}".encode())
 
 
     def do_PUT(self):
@@ -109,8 +107,21 @@ class HandleRequests(BaseHTTPRequestHandler):
         pass
 
     def do_DELETE(self):
-        """Handle DELETE Requests"""
-        pass
+        # Set a 204 response code
+        self._set_headers(204)
+
+    # Parse the URL
+        (resource, id) = self.parse_url()
+
+        # if resource == "users":
+        #     delete_user(id)
+
+        # Delete a single post from the list
+        if resource == "posts":
+            delete_post(id)
+
+        # Encode the new post and send in response
+            self.wfile.write("".encode())
 
 
 def main():

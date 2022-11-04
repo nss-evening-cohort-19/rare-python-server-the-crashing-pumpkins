@@ -7,5 +7,6 @@ from .user_request import (
 from .post_request import (
     get_all_posts,
     get_single_post,
-    create_post
+    create_post,
+    delete_post
     )
