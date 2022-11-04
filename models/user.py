@@ -1,4 +1,5 @@
-class User():
+class Users:
+    """docstring"""
     def __init__(self, id, first_name, last_name, email, bio, profile_image_url, created_on, active, username, password = ''):
         self.id = id
         self.first_name = first_name
