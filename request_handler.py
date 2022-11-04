@@ -68,11 +68,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     response = f'{get_all_users()}'
             if resource == 'posts':
-                # if id is not None:
-                    # response = f"{get_single_post(id)}"
-                # else:
+                if id is not None:
+                    response = f'{get_single_post(id)}'
+                else:
                 # response = 'test complete'
-                response = f'{get_all_posts()}'
+                    response = f'{get_all_posts()}'
 
 
         self.wfile.write(response.encode())

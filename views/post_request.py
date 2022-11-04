@@ -89,13 +89,13 @@ def get_single_post(id):
             p.content,
             p.approved
         FROM Posts p
-        WHERE u.id = ?
+        WHERE p.id = ?
         """, ( id, ))
 
         # Convert rows of data into a Python list
         data = db_cursor.fetchone()
 
-        post = Posts(data['id'], data['user_id'], data['category_id'], data['title'], data['publication_date'], data['image_url'], data['content'], data['approved'])
+        post = Posts(data['id'], data['category_id'], data['title'], data['publication_date'], data['image_url'], data['content'], data['approved'])
 
 
     return json.dumps(post.__dict__)
