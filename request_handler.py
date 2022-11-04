@@ -1,8 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from typing_extensions import Self
 
-from views import create_user, login_user, get_all_users, get_single_user
+from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, create_post
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -65,9 +64,16 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             if resource == 'users':
                 if id is not None:
-                    response = f"{get_single_user(id)}"
+                    response = f'{get_single_user(id)}'
                 else:
                     response = f'{get_all_users()}'
+            if resource == 'posts':
+                # if id is not None:
+                    # response = f"{get_single_post(id)}"
+                # else:
+                # response = 'test complete'
+                response = f'{get_all_posts()}'
+
 
         self.wfile.write(response.encode())
 
@@ -76,6 +82,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         self._set_headers(201)
         content_len = int(self.headers.get('content-length', 0))
         post_body = json.loads(self.rfile.read(content_len))
+
         response = ''
         resource, _ = self.parse_url()
 
@@ -84,7 +91,18 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == 'register':
             response = create_user(post_body)
 
-        self.wfile.write(response.encode())
+
+            self.wfile.write(response.encode())
+
+
+
+        # new_post = None
+
+        # if resource == 'posts':
+        #     new_post = create_post(post_body)
+
+        #     self.wfile.write(f"{new_post}".encode())
+
 
     def do_PUT(self):
         """Handles PUT requests to the server"""

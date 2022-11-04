@@ -73,7 +73,7 @@ def create_user(user):
 
 def get_all_users():
     # Open a connection to the database
-    with sqlite3.connect("./db.sqlite3") as conn:
+    with sqlite3.connect('./db.sqlite3') as conn:
 
         # Just use these. It's a Black Box.
         conn.row_factory = sqlite3.Row
@@ -111,7 +111,7 @@ def get_all_users():
 
 def get_single_user(id):
     # Open a connection to the database
-    with sqlite3.connect("./db.sqlite3") as conn:
+    with sqlite3.connect('./db.sqlite3') as conn:
 
         # Just use these. It's a Black Box.
         conn.row_factory = sqlite3.Row
