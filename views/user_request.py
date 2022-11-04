@@ -1,6 +1,43 @@
 import sqlite3
 import json
 from datetime import datetime
+from models import User
+
+USERS = [
+    {
+        'id': 1,
+        'first_name': 'Rob',
+        'last_name': 'Zombie',
+        'username': 'Zomboy',
+        'password': 'r0b',
+        'email': 'robo@mail.com',
+        'bio': 'More Human than Human',
+        'created_on': datetime.now(),
+        'active': 1
+    },
+    {
+        'id': 2,
+        'first_name': 'Roman',
+        'last_name': 'Reigns',
+        'username': 'Champ',
+        'password': 'rrc',
+        'email': 'roman@mail.com',
+        'bio': 'You\'re either with me or against me',
+        'created_on': datetime.now(),
+        'active': 1
+    },
+    {
+        'id': 3,
+        'first_name': 'Josh',
+        'last_name': 'Blue',
+        'username': 'Twitch',
+        'password': 'bl00',
+        'email': 'jb@mail.com',
+        'bio': 'Olympic Comedian',
+        'created_on': datetime.now(),
+        'active': 1
+    }
+]
 
 def login_user(user):
     """Checks for the user in the database
@@ -52,7 +89,7 @@ def create_user(user):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        Insert into Users (first_name, last_name, username, email, password, bio, created_on, active) values (?, ?, ?, ?, ?, ?, ?, 1)
+        Insert into Users (first_name, last_name, username, email, password, bio, created_on, active) values (?, ?, ?, ?, ?, ?, ?, 1, 1)
         """, (
             user['first_name'],
             user['last_name'],
@@ -60,12 +97,71 @@ def create_user(user):
             user['email'],
             user['password'],
             user['bio'],
-            datetime.now()
+            datetime.now(),
+            user['active']
         ))
 
         id = db_cursor.lastrowid
+        
+        # Get the id value of the last user in the list
+        max_id = USERS[-1]["id"]
 
+        # Add 1 to whatever that number is
+        new_id = max_id + 1
+
+        # Add an `id` property to the user dictionary
+        user["id"] = new_id
+
+        # Add the user dictionary to the list
+        USERS.append(user)
+
+        # Return the dictionary with `id` property added
         return json.dumps({
             'token': id,
             'valid': True
         })
+
+def get_all_users():
+    # Open a connection to the database
+    with sqlite3.connect('./db.sqlite3') as conn:
+
+        # Just use these. It's a Black Box.
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Write the SQL query to get the information you want
+        db_cursor.execute("""
+        SELECT
+            a.id,
+            a.first_name,
+            a.last_name,
+            a.username,
+            a.password,
+            a.email,
+            a.bio,
+            a.created_on,
+            a.active
+        FROM users a
+        """)
+
+        # Initialize an empty list to hold all user representations
+        users = []
+
+        # Convert rows of data into a Python list
+        dataset = db_cursor.fetchall()
+
+        # Iterate list of data returned from database
+        for row in dataset:
+
+            # Create an user instance from the current row.
+            # Note that the database fields are specified in
+            # exact order of the parameters defined in the
+            # user class above.
+            user = User(row['id'], row['first_name'], row['last_name'],
+                            row['username'], row['email'], row['password'],
+                            row['bio'], row['created_on'], row['active'])
+
+            users.append(user.__dict__)
+
+    # Use `json` package to properly serialize list as JSON
+    return json.dumps(users)

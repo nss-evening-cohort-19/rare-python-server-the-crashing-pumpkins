@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-from views.user_request import create_user, login_user
+from views import create_user, login_user, get_all_users
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -55,8 +55,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         response = ''
         resource, key = self.parse_url()
         
-        if resource == 'user':
-            response = 'The key is that I know'
+        print(resource, key)
+        if resource == 'users':
+            response = f'{get_all_users()}'
             
         self.wfile.write(response.encode())
 
