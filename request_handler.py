@@ -52,20 +52,13 @@ class HandleRequests(BaseHTTPRequestHandler):
     def do_GET(self):
         """Handle Get requests to the server"""
         self._set_headers(200)
-
         response = ''
-        resource, _ = self.parse_url()
-
-        # Parse URL and store entire tuple in a variable
-        # parsed = self.parse_url(self.path)
-
-        # If the path does not include a query parameter, continue with the original if block
-        # if '?' not in self.path:
-        #     ( resource, id ) = parsed
-
+        resource, key = self.parse_url()
+        
+        print(resource, key)
         if resource == 'users':
-            response = 'test response'
-
+            response = f'{get_all_users()}'
+            
         self.wfile.write(response.encode())
 
     def do_POST(self):
