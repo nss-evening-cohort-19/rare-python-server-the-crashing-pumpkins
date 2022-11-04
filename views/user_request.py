@@ -2,7 +2,6 @@ import sqlite3
 import json
 from datetime import datetime
 from models import User
-
 USERS = [
     {
         'id': 1,
@@ -38,7 +37,6 @@ USERS = [
         'active': 1
     }
 ]
-
 def login_user(user):
     """Checks for the user in the database
 
@@ -116,6 +114,10 @@ def create_user(user):
         USERS.append(user)
 
         # Return the dictionary with `id` property added
+            datetime.now()
+        ))
+
+        id = db_cursor.lastrowid
         return json.dumps({
             'token': id,
             'valid': True
@@ -164,4 +166,5 @@ def get_all_users():
             users.append(user.__dict__)
 
     # Use `json` package to properly serialize list as JSON
+   
     return json.dumps(users)

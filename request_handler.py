@@ -1,5 +1,5 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from views import create_user, login_user, get_all_users
 
