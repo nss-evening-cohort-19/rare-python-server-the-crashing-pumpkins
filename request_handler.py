@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post
+from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -73,6 +73,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                 # response = 'test complete'
                     response = f'{get_all_posts()}'
+            if resource == 'categories':
+                if id is not None:
+                    response = f"{get_single_categories(id)}"
+                else:
+                    response = f"{get_all_categories()}"
 
 
         self.wfile.write(response.encode())
@@ -85,9 +90,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         response = ''
         resource, _ = self.parse_url()
-        
+
         print(resource, _)
-        
+
         if resource == 'login':
             response = login_user(post_body)
         if resource == 'register':

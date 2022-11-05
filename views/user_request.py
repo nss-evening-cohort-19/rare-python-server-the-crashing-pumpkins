@@ -10,8 +10,9 @@ def login_user(user):
         user (dict): Contains the username and password of the user trying to login
 
     Returns:
-        json string: If the user was found will return valid boolean of True and the user's id as the token
-                     If the user was not found will return valid boolean False
+        json string: If the user was found will return
+        valid boolean of True and the user's id as the token
+        If the user was not found will return valid boolean False
     """
     with sqlite3.connect('./db.sqlite3') as conn:
         conn.row_factory = sqlite3.Row
@@ -65,13 +66,14 @@ def create_user(user):
         ))
 
         id = db_cursor.lastrowid
-        
+
         return json.dumps({
             'token': id,
             'valid': True
         })
 
 def get_all_users():
+    """docstring"""
     # Open a connection to the database
     with sqlite3.connect('./db.sqlite3') as conn:
 
@@ -102,7 +104,9 @@ def get_all_users():
         dataset = db_cursor.fetchall()
 
     for row in dataset:
-        users = Users(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['profile_image_url'], row['created_on'], row['active'], row['password'])
+        users = Users(row['id'], row['first_name'], row['last_name'],
+        row['email'], row['bio'], row['profile_image_url'],
+        row['created_on'], row['active'], row['password'])
 
         user.append(users.__dict__)
 
@@ -137,7 +141,8 @@ def get_single_user(id):
         # Convert rows of data into a Python list
         data = db_cursor.fetchone()
 
-        user = Users(data['id'], data['first_name'], data['last_name'], data['email'], data['bio'], data['profile_image_url'], data['created_on'], data['active'], data['password'])
+        user = Users(data['id'], data['first_name'], data['last_name'],
+        data['email'], data['bio'], data['profile_image_url'], data['created_on'], data['active'], data['password'])
 
     return json.dumps(user.__dict__)
 

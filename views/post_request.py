@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Posts, Users
+from models import Posts, Users, Categories
 
 POSTS = [
     {
@@ -13,6 +13,7 @@ POSTS = [
     }]
 
 def get_all_posts():
+    """docstring"""
     # Open a connection to the database
     with sqlite3.connect('./db.sqlite3') as conn:
 
@@ -23,14 +24,17 @@ def get_all_posts():
         # Write the SQL query to get the information you want
         db_cursor.execute("""
         SELECT
+            u.id user_id,
             p.id,
-            p.category_id,
             p.title,
+            p.category_id,
             p.publication_date,
             p.image_url,
             p.content,
             p.approved
         FROM Posts p
+        LEFT JOIN Users u
+            ON u.id = p.user_id
         """)
 
         # Initialize an empty list to hold all user representations
@@ -40,7 +44,20 @@ def get_all_posts():
         dataset = db_cursor.fetchall()
 
     for row in dataset:
-        posts = Posts(row['id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
+        posts = Posts(row['id'],
+        row['category_id'], row['title'],
+        row['publication_date'], row['image_url'], row['content'], row['approved'])
+
+        # Create a User instance from the current row
+        user = Users(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['profile_image_url'], row['created_on'], row['active'], row['password'])
+        # Add the dictionary representation of the users to the posts
+        posts.user = user.__dict__
+
+        # categories = Categories(row['id'])
+
+        # # Add the dictionary representation of the customer to the animal
+        # posts.categories = categories.__dict__
+
 
         post.append(posts.__dict__)
 
@@ -72,7 +89,9 @@ def get_single_post(id):
         # Convert rows of data into a Python list
         data = db_cursor.fetchone()
 
-        post = Posts(data['id'], data['category_id'], data['title'], data['publication_date'], data['image_url'], data['content'], data['approved'])
+        post = Posts(data['id'], data['category_id'], data['title'],
+        data['publication_date'], data['image_url'],
+        data['content'], data['approved'])
 
 
     return json.dumps(post.__dict__)
@@ -81,13 +100,13 @@ def create_post(new_post):
     """docstring"""
     with sqlite3.connect('./db.sqlite3') as conn:
         db_cursor = conn.cursor()
-        
+
         db_cursor.execute("""
         INSERT INTO Posts
             ( user_id, category_id, title, publication_date, image_url, content, approved )
         VALUES
             ( ?, ?, ?, ?, ?, ?, ? )
-                          """, ( 
+                          """, (
                             new_post['user_id'],
                             new_post['category_id'],
                             new_post['title'],
@@ -96,12 +115,14 @@ def create_post(new_post):
                             new_post['content'],
                             new_post['approved']
         ))
-        
+
         id = db_cursor.lastrowid
         new_post['id'] = id
     return json.dumps(new_post)
 
 def delete_post(id):
+    """docstring
+        """
     with sqlite3.connect("./db.sqlite3") as conn:
         db_cursor = conn.cursor()
 

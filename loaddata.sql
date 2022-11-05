@@ -87,6 +87,9 @@ CREATE TABLE "Categories" (
 
 INSERT INTO Users ('id', 'first_name', 'last_name', 'username', 'email', 'password', 'bio', 'created_on') VALUES (27, 'Rob', 'Zombie', 'Zomboy', 'robo@mail.com', 'm00n', 'More human than human', 3);
 INSERT INTO Categories ('label') VALUES ('News');
+INSERT INTO Categories ('label') VALUES ('Mood');
+INSERT INTO Categories ('label') VALUES ('Intention');
+INSERT INTO Categories ('label') VALUES ('Subject');
 INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('1', 'Mood', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'I am happ because this shit works', 1)
