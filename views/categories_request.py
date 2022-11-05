@@ -3,6 +3,7 @@ import json
 from models import Categories
 
 def get_all_categories():
+    """this is a docstring"""
     # Open a connection to the database
     with sqlite3.connect('./db.sqlite3') as conn:
 
@@ -25,14 +26,14 @@ def get_all_categories():
         dataset = db_cursor.fetchall()
 
     for row in dataset:
-        categories = Categories(row['id'], row['label'])
+        category_list = Categories(row['id'], row['label'])
 
-        categories.append(categories.__dict__)
-
+        categories.append(category_list.__dict__)
 
     return json.dumps(categories)
 
 def get_single_categories(id):
+    """docstring"""
     # Open a connection to the database
     with sqlite3.connect('./db.sqlite3') as conn:
 
