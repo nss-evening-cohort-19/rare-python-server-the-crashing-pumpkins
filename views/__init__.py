@@ -10,3 +10,8 @@ from .post_request import (
     create_post,
     delete_post
     )
+from .categories_request import (
+    get_all_categories,
+    get_single_categories,
+    delete_categories
+    )

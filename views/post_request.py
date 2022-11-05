@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Posts, Users
+from models import Posts, Users, Categories
 
 POSTS = [
     {
@@ -23,14 +23,17 @@ def get_all_posts():
         # Write the SQL query to get the information you want
         db_cursor.execute("""
         SELECT
+            u.id user_id,
             p.id,
-            p.category_id,
             p.title,
+            p.category_id,
             p.publication_date,
             p.image_url,
             p.content,
             p.approved
         FROM Posts p
+        LEFT JOIN Users u
+            ON u.id = p.user_id
         """)
 
         # Initialize an empty list to hold all user representations
@@ -41,6 +44,17 @@ def get_all_posts():
 
     for row in dataset:
         posts = Posts(row['id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
+
+        # Create a User instance from the current row
+        user = Users(row['id'])
+        # Add the dictionary representation of the users to the posts
+        posts.user = user.__dict__
+
+        # categories = Categories(row['id'])
+
+        # # Add the dictionary representation of the customer to the animal
+        # posts.categories = categories.__dict__
+
 
         post.append(posts.__dict__)
 
