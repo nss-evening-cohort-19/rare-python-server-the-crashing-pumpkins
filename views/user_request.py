@@ -1,43 +1,7 @@
 import sqlite3
 import json
 from datetime import datetime
-from models import User
-
-USERS = [
-    {
-        'id': 1,
-        'first_name': 'Rob',
-        'last_name': 'Zombie',
-        'username': 'Zomboy',
-        'password': 'r0b',
-        'email': 'robo@mail.com',
-        'bio': 'More Human than Human',
-        'created_on': datetime.now(),
-        'active': 1
-    },
-    {
-        'id': 2,
-        'first_name': 'Roman',
-        'last_name': 'Reigns',
-        'username': 'Champ',
-        'password': 'rrc',
-        'email': 'roman@mail.com',
-        'bio': 'You\'re either with me or against me',
-        'created_on': datetime.now(),
-        'active': 1
-    },
-    {
-        'id': 3,
-        'first_name': 'Josh',
-        'last_name': 'Blue',
-        'username': 'Twitch',
-        'password': 'bl00',
-        'email': 'jb@mail.com',
-        'bio': 'Olympic Comedian',
-        'created_on': datetime.now(),
-        'active': 1
-    }
-]
+from models import Users
 
 def login_user(user):
     """Checks for the user in the database
@@ -101,8 +65,7 @@ def create_user(user):
         ))
 
         id = db_cursor.lastrowid
-        print(id)
-        # Return the dictionary with `id` property added
+        
         return json.dumps({
             'token': id,
             'valid': True
@@ -119,35 +82,70 @@ def get_all_users():
         # Write the SQL query to get the information you want
         db_cursor.execute("""
         SELECT
-            a.id,
-            a.first_name,
-            a.last_name,
-            a.username,
-            a.password,
-            a.email,
-            a.bio,
-            a.created_on
-        FROM users a
+            u.id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.bio,
+            u.profile_image_url,
+            u.created_on,
+            u.active,
+            u.username,
+            u.password
+        FROM Users u
         """)
 
         # Initialize an empty list to hold all user representations
-        users = []
+        user = []
 
         # Convert rows of data into a Python list
         dataset = db_cursor.fetchall()
 
-        # Iterate list of data returned from database
-        for row in dataset:
+    for row in dataset:
+        users = Users(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['profile_image_url'], row['created_on'], row['active'], row['password'])
 
-            # Create an user instance from the current row.
-            # Note that the database fields are specified in
-            # exact order of the parameters defined in the
-            # user class above.
-            user = User(row['id'], row['first_name'], row['last_name'],
-                            row['username'], row['email'], row['password'],
-                            row['bio'], row['created_on'])
+        user.append(users.__dict__)
 
-            users.append(user.__dict__)
 
-    # Use `json` package to properly serialize list as JSON
-    return json.dumps(users)
+    return json.dumps(user)
+
+def get_single_user(id):
+    # Open a connection to the database
+    with sqlite3.connect('./db.sqlite3') as conn:
+
+        # Just use these. It's a Black Box.
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Write the SQL query to get the information you want
+        db_cursor.execute("""
+        SELECT
+            u.id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.bio,
+            u.profile_image_url,
+            u.created_on,
+            u.active,
+            u.username,
+            u.password
+        FROM Users u
+        WHERE u.id = ?
+        """, ( id, ))
+
+        # Convert rows of data into a Python list
+        data = db_cursor.fetchone()
+
+        user = Users(data['id'], data['first_name'], data['last_name'], data['email'], data['bio'], data['profile_image_url'], data['created_on'], data['active'], data['password'])
+
+    return json.dumps(user.__dict__)
+
+def delete_user(id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM users
+        WHERE id = ?
+        """, (id, ))
