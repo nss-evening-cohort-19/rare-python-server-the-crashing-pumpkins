@@ -85,7 +85,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         response = ''
         resource, _ = self.parse_url()
-
+        
+        print(resource, _)
+        
         if resource == 'login':
             response = login_user(post_body)
         if resource == 'register':
