@@ -4,6 +4,8 @@ class Users:
         self.id = id
         self.first_name = first_name
         self.last_name = last_name
+        self.username = username
+        self.password = password
         self.email = email
         self.bio = bio
         self.profile_image_url = profile_image_url

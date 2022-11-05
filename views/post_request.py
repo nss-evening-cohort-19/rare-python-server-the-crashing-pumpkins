@@ -77,22 +77,29 @@ def get_single_post(id):
 
     return json.dumps(post.__dict__)
 
-def create_post(post):
+def create_post(new_post):
     """docstring"""
-    # Get the id value of the last post in the list
-    max_id = POSTS[-1]["id"]
-
-    # Add 1 to whatever that number is
-    new_id = max_id + 1
-
-    # Add an `id` property to the post dictionary
-    post["id"] = new_id
-
-    # Add the post dictionary to the list
-    POSTS.append(post)
-
-    # Return the dictionary with `id` property added
-    return post
+    with sqlite3.connect('./db.sqlite3') as conn:
+        db_cursor = conn.cursor()
+        
+        db_cursor.execute("""
+        INSERT INTO Posts
+            ( user_id, category_id, title, publication_date, image_url, content, approved )
+        VALUES
+            ( ?, ?, ?, ?, ?, ?, ? )
+                          """, ( 
+                            new_post['user_id'],
+                            new_post['category_id'],
+                            new_post['title'],
+                            new_post['publication_date'],
+                            new_post['image_url'],
+                            new_post['content'],
+                            new_post['approved']
+        ))
+        
+        id = db_cursor.lastrowid
+        new_post['id'] = id
+    return json.dumps(new_post)
 
 def delete_post(id):
     with sqlite3.connect("./db.sqlite3") as conn:
@@ -112,3 +119,6 @@ def update_post(id, new_post):
             # Found the post. Update the value.
             POSTS[index] = new_post
             break
+
+def get_posts_by_user(user_id):
+    pass
