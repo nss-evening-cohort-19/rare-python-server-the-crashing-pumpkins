@@ -53,7 +53,7 @@ def create_user(user):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        Insert into Users (first_name, last_name, username, email, password, bio, created_on, active) values (?, ?, ?, ?, ?, ?, ?, 1)
+        Insert into Users (first_name, last_name, username, email, password, bio, created_on, active) values (?, ?, ?, ?, ?, ?, ?, 1, 1)
         """, (
             user['first_name'],
             user['last_name'],
@@ -65,7 +65,7 @@ def create_user(user):
         ))
 
         id = db_cursor.lastrowid
-
+        
         return json.dumps({
             'token': id,
             'valid': True
@@ -139,7 +139,6 @@ def get_single_user(id):
 
         user = Users(data['id'], data['first_name'], data['last_name'], data['email'], data['bio'], data['profile_image_url'], data['created_on'], data['active'], data['username'], data['password'])
 
-
     return json.dumps(user.__dict__)
 
 def delete_user(id):
@@ -150,3 +149,4 @@ def delete_user(id):
         DELETE FROM users
         WHERE id = ?
         """, (id, ))
+
