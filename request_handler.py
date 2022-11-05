@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories
+from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -108,6 +108,13 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             self.wfile.write(f"{new_post}".encode())
 
+        new_category = None
+
+        if resource == 'categories':
+            new_category = create_categories(post_body)
+
+            self.wfile.write(f"{new_category}".encode())
+
 
     def do_PUT(self):
         """Handles PUT requests to the server"""
@@ -126,6 +133,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single post from the list
         if resource == "posts":
             delete_post(id)
+
+        if resource == "categories":
+            delete_categories(id)
 
         # Encode the new post and send in response
             self.wfile.write("".encode())

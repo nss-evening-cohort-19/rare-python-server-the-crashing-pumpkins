@@ -1,7 +1,6 @@
 import sqlite3
 import json
-from models import Posts, Users, Categories
-
+from models import Posts, Users
 POSTS = [
     {
         "id": 1,
@@ -103,11 +102,10 @@ def create_post(new_post):
 
         db_cursor.execute("""
         INSERT INTO Posts
-            ( user_id, category_id, title, publication_date, image_url, content, approved )
+            ( category_id, title, publication_date, image_url, content, approved )
         VALUES
             ( ?, ?, ?, ?, ?, ?, ? )
                           """, (
-                            new_post['user_id'],
                             new_post['category_id'],
                             new_post['title'],
                             new_post['publication_date'],

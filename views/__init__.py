@@ -13,5 +13,6 @@ from .post_request import (
 from .categories_request import (
     get_all_categories,
     get_single_categories,
-    delete_categories
+    delete_categories,
+    create_categories
     )
