@@ -97,24 +97,11 @@ def create_user(user):
             user['email'],
             user['password'],
             user['bio'],
-            datetime.now(),
-            user['active']
+            datetime.now()
         ))
 
         id = db_cursor.lastrowid
-        
-        # Get the id value of the last user in the list
-        max_id = USERS[-1]["id"]
-
-        # Add 1 to whatever that number is
-        new_id = max_id + 1
-
-        # Add an `id` property to the user dictionary
-        user["id"] = new_id
-
-        # Add the user dictionary to the list
-        USERS.append(user)
-
+        print(id)
         # Return the dictionary with `id` property added
         return json.dumps({
             'token': id,
@@ -139,8 +126,7 @@ def get_all_users():
             a.password,
             a.email,
             a.bio,
-            a.created_on,
-            a.active
+            a.created_on
         FROM users a
         """)
 
@@ -159,7 +145,7 @@ def get_all_users():
             # user class above.
             user = User(row['id'], row['first_name'], row['last_name'],
                             row['username'], row['email'], row['password'],
-                            row['bio'], row['created_on'], row['active'])
+                            row['bio'], row['created_on'])
 
             users.append(user.__dict__)
 

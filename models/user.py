@@ -9,10 +9,9 @@ class User():
       last_name,
       username,
       email,
-      password,
       bio,
       created_on,
-      active
+      password = ''
       ):
         self.id = id
         self.first_name = first_name
@@ -22,7 +21,7 @@ class User():
         self.password = password
         self.bio = bio
         self.created_on = created_on
-        self.active = 1
+
 
 new_user = User(
   17,
@@ -32,6 +31,5 @@ new_user = User(
   'pins@hellmail.com',
   'h3ll',
   'Captain of British Expeditionary Force',
-  0,
-  1
+  0
   )

@@ -54,8 +54,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         self._set_headers(200)
         response = ''
         resource, key = self.parse_url()
-        
-        print(resource, key)
+
         if resource == 'users':
             response = f'{get_all_users()}'
             
@@ -68,7 +67,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         post_body = json.loads(self.rfile.read(content_len))
         response = ''
         resource, _ = self.parse_url()
-
+        
+        print(resource, _)
+        
         if resource == 'login':
             response = login_user(post_body)
         if resource == 'register':
