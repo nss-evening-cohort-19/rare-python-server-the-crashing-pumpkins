@@ -53,7 +53,7 @@ def create_user(user):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        Insert into Users (first_name, last_name, username, email, password, bio, created_on, active) values (?, ?, ?, ?, ?, ?, ?, 1)
+        Insert into Users (first_name, last_name, username, email, password, bio, created_on, active) values (?, ?, ?, ?, ?, ?, ?, 1, 1)
         """, (
             user['first_name'],
             user['last_name'],
@@ -65,7 +65,7 @@ def create_user(user):
         ))
 
         id = db_cursor.lastrowid
-
+        
         return json.dumps({
             'token': id,
             'valid': True
@@ -102,7 +102,7 @@ def get_all_users():
         dataset = db_cursor.fetchall()
 
     for row in dataset:
-        users = Users(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['profile_image_url'], row['created_on'], row['active'], row['username'],row['password'])
+        users = Users(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['profile_image_url'], row['created_on'], row['active'], row['password'])
 
         user.append(users.__dict__)
 
@@ -137,8 +137,7 @@ def get_single_user(id):
         # Convert rows of data into a Python list
         data = db_cursor.fetchone()
 
-        user = Users(data['id'], data['first_name'], data['last_name'], data['email'], data['bio'], data['profile_image_url'], data['created_on'], data['active'], data['username'], data['password'])
-
+        user = Users(data['id'], data['first_name'], data['last_name'], data['email'], data['bio'], data['profile_image_url'], data['created_on'], data['active'], data['password'])
 
     return json.dumps(user.__dict__)
 

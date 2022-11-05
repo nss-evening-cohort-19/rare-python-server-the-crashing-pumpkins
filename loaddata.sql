@@ -85,6 +85,7 @@ CREATE TABLE "Categories" (
   "label" varchar
 );
 
+INSERT INTO Users ('id', 'first_name', 'last_name', 'username', 'email', 'password', 'bio', 'created_on') VALUES (27, 'Rob', 'Zombie', 'Zomboy', 'robo@mail.com', 'm00n', 'More human than human', 3);
 INSERT INTO Categories ('label') VALUES ('News');
 INSERT INTO Categories ('label') VALUES ('Mood');
 INSERT INTO Categories ('label') VALUES ('Intention');
