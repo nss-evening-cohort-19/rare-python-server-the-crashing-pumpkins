@@ -24,14 +24,14 @@ def get_all_posts():
         # Write the SQL query to get the information you want
         db_cursor.execute("""
         SELECT
-            u.id user_id,
             p.id,
             p.title,
             p.category_id,
             p.publication_date,
             p.image_url,
             p.content,
-            p.approved
+            p.approved,
+            u.id user_id
         FROM Posts p
         LEFT JOIN Users u
             ON u.id = p.user_id
