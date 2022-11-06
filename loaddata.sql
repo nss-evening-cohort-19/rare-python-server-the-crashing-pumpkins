@@ -95,3 +95,7 @@ INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.c
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('1', 'Mood', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'I am happ because this shit works', 1)
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('2', 'Mood', '11.02.2022', 'https://images.unsplash.com/photo-1531260796528-ae45a644fb20?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c2FkJTIwbW9vZHxlbnwwfHwwfHw%3D&w=1000&q=80', 'I was a pissy dude after the car wreck', 1)
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('2', 'Mood', '11.06.2022', 'https://production.listennotes.com/podcasts/bear-psychology-podcast-dr-anna-baranowsky-2WFOMyLS8tl-zluxvHOr3Sb.300x300.jpg', 'I am feeling dickish today', 1)
+
+SELECT label FROM Categories ORDER BY label ASC
+
+INSERT INTO  Subscriptions ('id', 'follower_id', 'author_id', 'created_on') VALUES (1, 22, 33, 11)

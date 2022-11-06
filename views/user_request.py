@@ -95,6 +95,7 @@ def get_all_users():
             u.username,
             u.password
         FROM Users u
+        ORDER BY username ASC
         """)
 
         # Initialize an empty list to hold all user representations
@@ -142,7 +143,7 @@ def get_single_user(id):
         data = db_cursor.fetchone()
 
         user = Users(data['id'], data['first_name'], data['last_name'],
-        data['email'], data['bio'], data['profile_image_url'], data['created_on'], data['active'], data['password'])
+        data['email'], data['bio'], data['profile_image_url'], data['created_on'], data['active'], data['username'], data['password'])
 
     return json.dumps(user.__dict__)
 
@@ -154,3 +155,28 @@ def delete_user(id):
         DELETE FROM users
         WHERE id = ?
         """, (id, ))
+
+def get_user_details():
+    with sqlite3.connect('./db.sqlite3') as conn:
+
+        # Just use these. It's a Black Box.
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Write the SQL query to get the information you want
+        db_cursor.execute("""
+        SELECT
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.username
+        FROM Users u
+        """)
+
+        # Convert rows of data into a Python list
+        data = db_cursor.fetchall()
+
+        user = Users(data['username'], data['first_name'], data['last_name'],
+        data['email'])
+
+    return json.dumps(user.__dict__)
