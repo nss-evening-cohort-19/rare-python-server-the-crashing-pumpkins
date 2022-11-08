@@ -23,3 +23,8 @@ from .subscription_request import (
     create_subscription,
     get_single_subscription
     )
+from .tag_request import (
+    get_all_tags,
+    get_single_tag,
+    create_tag
+    )
