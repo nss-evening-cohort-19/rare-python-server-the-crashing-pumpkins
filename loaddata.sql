@@ -95,3 +95,42 @@ INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.c
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('1', 'Mood', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'I am happ because this shit works', 1)
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('2', 'Mood', '11.02.2022', 'https://images.unsplash.com/photo-1531260796528-ae45a644fb20?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c2FkJTIwbW9vZHxlbnwwfHwwfHw%3D&w=1000&q=80', 'I was a pissy dude after the car wreck', 1)
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('2', 'Mood', '11.06.2022', 'https://production.listennotes.com/podcasts/bear-psychology-podcast-dr-anna-baranowsky-2WFOMyLS8tl-zluxvHOr3Sb.300x300.jpg', 'I am feeling dickish today', 1)
+INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('4', 'Life is Python, '11.07.2022', 'https://bigthink.com/wp-content/uploads/2022/07/AdobeStock_379164614.jpeg?w=480&h=270&crop=1', 'What a stinking hole of lies', 1)
+
+SELECT
+    p.id,
+    p.title,
+    p.category_id,
+    p.publication_date,
+    p.image_url,
+    p.content,
+    p.approved,
+    u.id user_id
+FROM Posts p
+LEFT JOIN Users u
+    ON u.id = p.user_id
+
+SELECT
+    s.id,
+    s.follower_id,
+    s.created_on,
+    u.id author_id
+FROM Subscriptions s
+LEFT JOIN Users u
+    ON  u.id = s.author_id
+
+SELECT
+    p.title,
+    u.first_name first_name,
+    u.last_name last_name
+FROM Posts p
+LEFT JOIN Users u
+    ON u.id = p.user_id
+
+SELECT
+    p.title,
+    c.id category_id
+FROM Categories c
+LEFT JOIN Posts p
+    ON p.id = p.category_id
+    WHERE label = 'Jo Mama'
