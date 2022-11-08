@@ -59,7 +59,29 @@ def get_single_categories(id):
     return json.dumps(categories.__dict__)
 
 
+def create_categories(new_category):
+    """docstring"""
+    with sqlite3.connect('./db.sqlite3') as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO Categories
+            ( label )
+        VALUES
+            ( ? )
+        """, (
+        new_category['label'],
+        ))
+
+        id = db_cursor.lastrowid
+        new_category['id'] = id
+
+    print(new_category)
+    return json.dumps(new_category)
+
 def delete_categories(id):
+    """docstring
+        """
     with sqlite3.connect("./db.sqlite3") as conn:
         db_cursor = conn.cursor()
 
