@@ -97,7 +97,28 @@ def update_subscription(id, new_subscription):
     """docstring"""
     # Iterate the subscriptions list, but use enumerate() so that
     # you can access the index value of each item.
-    pass
+    with sqlite3.connect('./db.sqlite3') as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE Subscriptions
+            SET
+            author_id = ?,
+            follower_id = ?,
+            created_on = ?
+        WHERE id = ?
+        """, (
+            new_subscription['author_id'],
+            new_subscription['follower_id'],
+            new_subscription['created_on'],
+            id,
+      ))
+
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        return False
+    else:
+        return True
 
 def get_subscription_by_user(subscription_id):
     pass
