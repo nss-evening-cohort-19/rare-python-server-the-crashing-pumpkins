@@ -7,7 +7,20 @@ from .user_request import (
 from .post_request import (
     get_all_posts,
     get_single_post,
+    update_post,
     create_post,
-    delete_post
+    delete_post,
+    get_posts_by_user
+    )
+from .categories_request import (
+    get_all_categories,
+    get_single_categories,
+    delete_categories,
+    create_categories
+    )
+from .subscription_request import (
+    get_all_subscriptions,
+    create_subscription,
+    get_single_subscription
     )
 
