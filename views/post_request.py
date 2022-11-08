@@ -116,7 +116,6 @@ def delete_post(id):
 def update_post(id, new_post):
     """docstring"""
     with sqlite3.connect('./db.sqlite3') as conn:
-        conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
         db_cursor.execute("""
         UPDATE Posts
@@ -125,6 +124,7 @@ def update_post(id, new_post):
             category_id = ?,
             title = ?,
             publication_date = ?,
+            image_url = ?,
             content = ?,
             approved = ?
         WHERE id = ?
@@ -133,8 +133,10 @@ def update_post(id, new_post):
             new_post['category_id'],
             new_post['title'],
             new_post['publication_date'],
+            new_post['image_url'],
             new_post['content'],
             new_post['approved'],
+            id,
       ))
       
         rows_affected = db_cursor.rowcount
