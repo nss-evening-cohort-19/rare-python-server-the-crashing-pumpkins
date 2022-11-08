@@ -77,7 +77,7 @@ def create_categories(new_category):
         id = db_cursor.lastrowid
         new_category['id'] = id
 
-    print(new_category)
+
     return json.dumps(new_category)
 
 def delete_categories(id):
