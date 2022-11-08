@@ -73,11 +73,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                 # response = 'test complete'
                     response = f'{get_all_posts()}'
-            if resource == 'tags':
-                if id is not None:
-                    response = f'{get_single_tag(id)}'
-                else:
-                    response = f'{get_all_tags()}'
+
 
 
         self.wfile.write(response.encode())
@@ -108,12 +104,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             self.wfile.write(f"{new_post}".encode())
             
-        new_tag = None
-        
-        if resource == 'tags':
-            new_tag = create_tag(post_body)
-            
-            self.wfile.write(f"{new_tag}". encode())
+
 
 
     def do_PUT(self):
