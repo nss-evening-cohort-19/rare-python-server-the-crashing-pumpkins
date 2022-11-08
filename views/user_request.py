@@ -157,26 +157,27 @@ def delete_user(id):
         """, (id, ))
 
 def get_user_details():
-    with sqlite3.connect('./db.sqlite3') as conn:
+    # with sqlite3.connect('./db.sqlite3') as conn:
 
-        # Just use these. It's a Black Box.
-        conn.row_factory = sqlite3.Row
-        db_cursor = conn.cursor()
+    #     # Just use these. It's a Black Box.
+    #     conn.row_factory = sqlite3.Row
+    #     db_cursor = conn.cursor()
 
-        # Write the SQL query to get the information you want
-        db_cursor.execute("""
-        SELECT
-            u.first_name,
-            u.last_name,
-            u.email,
-            u.username
-        FROM Users u
-        """)
+    #     # Write the SQL query to get the information you want
+    #     db_cursor.execute("""
+    #     SELECT
+    #         u.first_name,
+    #         u.last_name,
+    #         u.email,
+    #         u.username
+    #     FROM Users u
+    #     """)
 
-        # Convert rows of data into a Python list
-        data = db_cursor.fetchall()
+    #     # Convert rows of data into a Python list
+    #     data = db_cursor.fetchall()
 
-        user = Users(data['username'], data['first_name'], data['last_name'],
-        data['email'])
+    #     user = Users(data['username'], data['first_name'], data['last_name'],
+    #     data['email'])
 
-    return json.dumps(user.__dict__)
+    # return json.dumps(user.__dict__)
+    pass

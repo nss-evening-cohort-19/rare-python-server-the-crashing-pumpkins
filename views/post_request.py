@@ -1,7 +1,6 @@
 import sqlite3
 import json
-from models import Posts, Users, Categories
-
+from models import Posts
 POSTS = [
     {
         "id": 1,

@@ -94,7 +94,7 @@ def delete_subscription(id):
 
 def update_subscription(id, new_subscription):
     """docstring"""
-    # Iterate the postS list, but use enumerate() so that
+    # Iterate the subscriptions list, but use enumerate() so that
     # you can access the index value of each item.
     pass
 
