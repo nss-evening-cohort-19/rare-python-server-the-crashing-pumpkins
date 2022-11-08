@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from views import (
-    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user
+    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_all_tags, get_single_tag, create_tag
     )
 
 
@@ -83,6 +83,12 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_subscription(id)}"
                 else:
                     response = f"{get_all_subscriptions()}"
+            if resource == 'tags':
+                if id is not None:
+                    response = f'{get_single_tag(id)}'
+                else:
+                    response = f'{get_all_tags()}'
+
         else:
             ( resource, key, value ) = parsed
             if resource == 'posts':
@@ -144,6 +150,13 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_subscription = create_subscription(post_body)
 
             self.wfile.write(f"{new_subscription}".encode())
+            
+        new_tag = None
+        
+        if resource == 'tags':
+            new_tag = create_tag(post_body)
+            
+            self.wfile.write(f"{new_tag}". encode())
 
 
     def do_PUT(self):
