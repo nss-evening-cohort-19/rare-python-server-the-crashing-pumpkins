@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post
+from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_posts_by_user, update_post
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -61,7 +61,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         # If the path does not include a query parameter, continue with the original if block
         if '?' not in self.path:
             ( resource, id ) = parsed
-
+            print(resource, id)
             if resource == 'users':
                 if id is not None:
                     response = f'{get_single_user(id)}'
@@ -71,8 +71,14 @@ class HandleRequests(BaseHTTPRequestHandler):
                 if id is not None:
                     response = f'{get_single_post(id)}'
                 else:
-                # response = 'test complete'
                     response = f'{get_all_posts()}'
+        if '?' in self.path:
+            ( resource, key, value ) = parsed
+
+            if resource == 'posts':
+                if key == 'user_id':
+                    response = f'{get_posts_by_user(value)}'
+
 
 
         self.wfile.write(response.encode())
@@ -85,9 +91,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         response = ''
         resource, _ = self.parse_url()
-        
+
         print(resource, _)
-        
+
         if resource == 'login':
             response = login_user(post_body)
         if resource == 'register':
@@ -106,7 +112,22 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     def do_PUT(self):
         """Handles PUT requests to the server"""
-        pass
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+        
+        (resource, id) = self.parse_url(self.path)
+        success = False
+        
+        if resource == 'posts':
+            success = update_post(id, post_body)
+            
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+        
+        self.wfile.write(''.encode())
 
     def do_DELETE(self):
         # Set a 204 response code
