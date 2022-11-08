@@ -157,6 +157,7 @@ def delete_user(id):
         """, (id, ))
 
 def get_user_details():
+    pass
     # with sqlite3.connect('./db.sqlite3') as conn:
 
     #     # Just use these. It's a Black Box.
@@ -176,8 +177,7 @@ def get_user_details():
     #     # Convert rows of data into a Python list
     #     data = db_cursor.fetchall()
 
-    #     user = Users(data['username'], data['first_name'], data['last_name'],
+    #     user = Users(data['id'], data['username'], data['first_name'], data['last_name'],
     #     data['email'])
 
     # return json.dumps(user.__dict__)
-    pass

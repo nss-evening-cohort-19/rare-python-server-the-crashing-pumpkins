@@ -1,6 +1,7 @@
 import sqlite3
 import json
-from models import Subscriptions, Users
+from datetime import datetime
+from models import Subscriptions
 
 def get_all_subscriptions():
     """this is a docstring"""
@@ -74,7 +75,7 @@ def create_subscription(new_subscription):
         """, (
             new_subscription['author_id'],
             new_subscription['follower_id'],
-            new_subscription['created_on']
+            datetime.now()
         ))
 
         id = db_cursor.lastrowid
