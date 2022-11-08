@@ -24,3 +24,8 @@ from .subscription_request import (
     get_single_subscription,
     update_subscription
     )
+from .tag_request import (
+    get_all_tags,
+    get_single_tag,
+    create_tag
+    )
