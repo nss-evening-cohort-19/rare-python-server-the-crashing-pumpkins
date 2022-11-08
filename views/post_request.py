@@ -30,11 +30,9 @@ def get_all_posts():
             p.publication_date,
             p.image_url,
             p.content,
-            p.approved,
-            u.id user_id
+            p.approved
         FROM Posts p
-        LEFT JOIN Users u
-            ON u.id = p.user_id
+        ORDER BY publication_date DESC
         """)
 
         # Initialize an empty list to hold all user representations
@@ -48,10 +46,10 @@ def get_all_posts():
         row['category_id'], row['title'],
         row['publication_date'], row['image_url'], row['content'], row['approved'])
 
-        # Create a User instance from the current row
-        user = Users(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['profile_image_url'], row['created_on'], row['active'], row['password'])
-        # Add the dictionary representation of the users to the posts
-        posts.user = user.__dict__
+        # # Create a User instance from the current row
+        # user = Users(row['id'], row['first_name'], row['last_name'], row['email'], row['bio'], row['profile_image_url'], row['created_on'], row['active'], row['password'])
+        # # Add the dictionary representation of the users to the posts
+        # posts.user = user.__dict__
 
         # categories = Categories(row['id'])
 

@@ -19,6 +19,7 @@ def get_all_subscriptions():
             s.follower_id,
             s.created_on
         FROM Subscriptions s
+        ORDER BY s.created_on DESC
         """)
         # Initialize an empty list to hold all user representations
         subscriptions = []
