@@ -10,3 +10,8 @@ from .post_request import (
     create_post,
     delete_post
     )
+from .tag_request import (
+    get_all_tags,
+    get_single_tag,
+    create_tag
+    )

@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post
+from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_tags, get_single_tag, create_tag
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -73,6 +73,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                 # response = 'test complete'
                     response = f'{get_all_posts()}'
+            if resource == 'tags':
+                if id is not None:
+                    response = f'{get_single_tag(id)}'
+                else:
+                    response = f'{get_all_tags()}'
 
 
         self.wfile.write(response.encode())
@@ -102,6 +107,13 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_post = create_post(post_body)
 
             self.wfile.write(f"{new_post}".encode())
+            
+        new_tag = None
+        
+        if resource == 'tags':
+            new_tag = create_tag(post_body)
+            
+            self.wfile.write(f"{new_tag}". encode())
 
 
     def do_PUT(self):
