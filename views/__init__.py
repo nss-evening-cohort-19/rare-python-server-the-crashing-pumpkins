@@ -12,3 +12,14 @@ from .post_request import (
     delete_post,
     get_posts_by_user
     )
+from .categories_request import (
+    get_all_categories,
+    get_single_categories,
+    delete_categories,
+    create_categories
+    )
+from .subscription_request import (
+    get_all_subscriptions,
+    create_subscription,
+    get_single_subscription
+    )

@@ -1,7 +1,9 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from views import create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_posts_by_user, update_post
+from views import (
+    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription
+    )
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -72,13 +74,16 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f'{get_single_post(id)}'
                 else:
                     response = f'{get_all_posts()}'
-        if '?' in self.path:
-            ( resource, key, value ) = parsed
-
-            if resource == 'posts':
-                if key == 'user_id':
-                    response = f'{get_posts_by_user(value)}'
-
+            if resource == 'categories':
+                if id is not None:
+                    response = f"{get_single_categories(id)}"
+                else:
+                    response = f"{get_all_categories()}"
+            if resource == 'subscriptions':
+                if id is not None:
+                    response = f"{get_single_subscription(id)}"
+                else:
+                    response = f"{get_all_subscriptions()}"
 
 
         self.wfile.write(response.encode())
@@ -108,6 +113,18 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_post = create_post(post_body)
 
             self.wfile.write(f"{new_post}".encode())
+
+        new_category = None
+
+        if resource == 'categories':
+            new_category = create_categories(post_body)
+
+            self.wfile.write(f"{new_category}".encode())
+
+        if resource == 'subscriptions':
+            new_subscription = create_subscription(post_body)
+
+            self.wfile.write(f"{new_subscription}".encode())
 
 
     def do_PUT(self):
@@ -142,6 +159,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single post from the list
         if resource == "posts":
             delete_post(id)
+
+        if resource == "categories":
+            delete_categories(id)
 
         # Encode the new post and send in response
             self.wfile.write("".encode())

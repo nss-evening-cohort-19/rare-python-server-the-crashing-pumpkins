@@ -13,6 +13,7 @@ POSTS = [
     }]
 
 def get_all_posts():
+    """docstring"""
     # Open a connection to the database
     with sqlite3.connect('./db.sqlite3') as conn:
         # Just use these. It's a Black Box.
@@ -22,13 +23,14 @@ def get_all_posts():
         db_cursor.execute("""
         SELECT
             p.id,
-            p.category_id,
             p.title,
+            p.category_id,
             p.publication_date,
             p.image_url,
             p.content,
             p.approved
         FROM Posts p
+        ORDER BY publication_date DESC
         """)
         # Initialize an empty list to hold all user representations
         posts = []
@@ -68,7 +70,9 @@ def get_single_post(id):
         # Convert rows of data into a Python list
         data = db_cursor.fetchone()
 
-        post = Posts(data['id'], data['user_id'], data['category_id'], data['title'], data['publication_date'], data['image_url'], data['content'], data['approved'])
+        post = Posts(data['id'], data['user_id'], data['category_id'], data['title'],
+        data['publication_date'], data['image_url'],
+        data['content'], data['approved'])
 
 
     return json.dumps(post.__dict__)
@@ -83,7 +87,7 @@ def create_post(new_post):
             ( user_id, category_id, title, publication_date, image_url, content, approved )
         VALUES
             ( ?, ?, ?, ?, ?, ?, ? )
-                          """, ( 
+                          """, (
                             new_post['user_id'],
                             new_post['category_id'],
                             new_post['title'],
@@ -98,6 +102,8 @@ def create_post(new_post):
     return json.dumps(new_post)
 
 def delete_post(id):
+    """docstring
+        """
     with sqlite3.connect("./db.sqlite3") as conn:
         db_cursor = conn.cursor()
 
