@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from views import (
-    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription
+    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user
     )
 
 
@@ -63,7 +63,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         # If the path does not include a query parameter, continue with the original if block
         if '?' not in self.path:
             ( resource, id ) = parsed
-            print(resource, id)
             if resource == 'users':
                 if id is not None:
                     response = f'{get_single_user(id)}'
@@ -84,6 +83,12 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_subscription(id)}"
                 else:
                     response = f"{get_all_subscriptions()}"
+        else:
+            ( resource, key, value ) = parsed
+            if resource == 'posts':
+                if key == 'user_id':
+                    response = f'{get_posts_by_user(value)}'
+            
 
 
         self.wfile.write(response.encode())
@@ -96,8 +101,6 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         response = ''
         resource, _ = self.parse_url()
-
-        print(resource, _)
 
         if resource == 'login':
             response = login_user(post_body)
@@ -132,17 +135,17 @@ class HandleRequests(BaseHTTPRequestHandler):
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
-        
-        (resource, id) = self.parse_url(self.path)
+  
+        (resource, id) = self.parse_url()
         success = False
         
         if resource == 'posts':
             success = update_post(id, post_body)
             
-        if success:
-            self._set_headers(204)
-        else:
-            self._set_headers(404)
+            if success:
+                self._set_headers(204)
+            else:
+                self._set_headers(404)
         
         self.wfile.write(''.encode())
 

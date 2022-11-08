@@ -23,6 +23,7 @@ def get_all_posts():
         db_cursor.execute("""
         SELECT
             p.id,
+            p.user_id,
             p.title,
             p.category_id,
             p.publication_date,
@@ -115,27 +116,28 @@ def delete_post(id):
 def update_post(id, new_post):
     """docstring"""
     with sqlite3.connect('./db.sqlite3') as conn:
-      db_cursor = conn.cursor()
-      db_cursor.execute("""
-      UPDATE Posts
-          SET
-              user_id = ?,
-              category_id = ?,
-              title = ?,
-              publication_date = ?,
-              content = ?,
-              approved = ?
-      WHERE id = ?
-      """, (
-        new_post['user_id'],
-        new_post['category_id'],
-        new_post['title'],
-        new_post['publication_date'],
-        new_post['content'],
-        new_post['approved']
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE Posts
+            SET
+            user_id = ?,
+            category_id = ?,
+            title = ?,
+            publication_date = ?,
+            content = ?,
+            approved = ?
+        WHERE id = ?
+        """, (
+            new_post['user_id'],
+            new_post['category_id'],
+            new_post['title'],
+            new_post['publication_date'],
+            new_post['content'],
+            new_post['approved'],
       ))
       
-      rows_affected = db_cursor.rowcount
+        rows_affected = db_cursor.rowcount
       
     if rows_affected == 0:
       return False
@@ -144,6 +146,7 @@ def update_post(id, new_post):
 
 def get_posts_by_user(user_id):
     with sqlite3.connect("./db.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
         
         db_cursor.execute("""
