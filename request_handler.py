@@ -211,7 +211,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "categories":
             delete_categories(id)
-            
+
         if resource == "subscriptions":
             delete_subscription(id)
 
