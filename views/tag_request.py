@@ -76,3 +76,37 @@ def create_tag(new_tag):
         id = db_cursor.lastrowid
         new_tag['id'] = id
     return json.dumps(new_tag)
+
+def update_tag(id, new_tag):
+    """docstring"""
+    # Iterate the subscriptions list, but use enumerate() so that
+    # you can access the index value of each item.
+    with sqlite3.connect('./db.sqlite3') as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE Tags
+            SET
+            label = ?
+        WHERE id = ?
+        """, (
+            new_tag['label'],
+            id,
+        ))
+
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        return False
+    else:
+        return True
+
+def delete_tag(id):
+    """docstring
+        """
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM tags
+        WHERE id = ?
+        """, (id, ))
