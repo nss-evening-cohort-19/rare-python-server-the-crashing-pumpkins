@@ -76,3 +76,35 @@ def create_tag(new_tag):
         id = db_cursor.lastrowid
         new_tag['id'] = id
     return json.dumps(new_tag)
+
+def delete_tag(id):
+    """String of the Doc"""
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+        
+        db_cursor.execute("""
+        DELETE FROM Tags
+        WHERE id = ?
+        """, ( id, ))
+
+def update_tag(id, fresh_tag):
+    """Dr.String"""
+    with sqlite3.connect("./db.sqlite3") as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        UPDATE Tags
+            SET
+            label = ?
+        WHERE id = ?
+        """, (
+            fresh_tag['label'],
+            id, 
+        ))
+        
+        rows_affected = db_cursor.rowcount
+        
+    if rows_affected == 0:
+        return False
+    else:
+        return True
+    

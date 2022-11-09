@@ -142,9 +142,9 @@ def update_post(id, new_post):
         rows_affected = db_cursor.rowcount
 
     if rows_affected == 0:
-      return False
+        return False
     else:
-      return True
+        return True
 
 def get_posts_by_user(user_id):
     with sqlite3.connect("./db.sqlite3") as conn:
