@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from views import (
-    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_reactions_of_post
+    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_reactions_of_post, update_subscription, get_all_tags, get_single_tag, create_tag
     )
 
 
@@ -83,15 +83,25 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_subscription(id)}"
                 else:
                     response = f"{get_all_subscriptions()}"
+            if resource == 'tags':
+                if id is not None:
+                    response = f'{get_single_tag(id)}'
+                else:
+                    response = f'{get_all_tags()}'
+
         else:
             ( resource, key, value ) = parsed
+            print(parsed)
             if resource == 'posts':
                 if key == 'user_id':
                     response = f'{get_posts_by_user(value)}'
             
-            if resource == 'reactions':
+            if resource == 'post_reactions':
                 if key == 'post_id':
                     response = f'{get_reactions_of_post(value)}'
+
+
+
 
         self.wfile.write(response.encode())
 
@@ -119,6 +129,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             self.wfile.write(f"{new_post}".encode())
 
+
         new_category = None
 
         if resource == 'categories':
@@ -132,6 +143,27 @@ class HandleRequests(BaseHTTPRequestHandler):
             self.wfile.write(f"{new_subscription}".encode())
 
 
+
+        new_category = None
+
+        if resource == 'categories':
+            new_category = create_categories(post_body)
+
+            self.wfile.write(f"{new_category}".encode())
+
+        if resource == 'subscriptions':
+            new_subscription = create_subscription(post_body)
+
+            self.wfile.write(f"{new_subscription}".encode())
+
+        new_tag = None
+
+        if resource == 'tags':
+            new_tag = create_tag(post_body)
+
+            self.wfile.write(f"{new_tag}". encode())
+
+
     def do_PUT(self):
         """Handles PUT requests to the server"""
         content_len = int(self.headers.get('content-length', 0))
@@ -140,6 +172,11 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         (resource, id) = self.parse_url()
         success = False
+
+        if resource == 'posts':
+            success = update_post(id, post_body)
+        if resource == 'subscriptions':
+            success = update_subscription(id, post_body)
 
         if success:
             self._set_headers(204)

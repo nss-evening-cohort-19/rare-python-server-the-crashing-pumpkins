@@ -21,7 +21,13 @@ from .categories_request import (
 from .subscription_request import (
     get_all_subscriptions,
     create_subscription,
-    get_single_subscription
+    get_single_subscription,
+    update_subscription
+    )
+from .tag_request import (
+    get_all_tags,
+    get_single_tag,
+    create_tag
     )
 
 from .reaction_request import (

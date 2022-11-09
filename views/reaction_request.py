@@ -8,20 +8,26 @@ def get_reactions_of_post(post_id):
         db_cursor = conn.cursor()
         db_cursor.execute("""
         SELECT
+            pr.id as pr_id,
+            pr.reaction_id,
+            pr.user_id,
+            pr.post_id,
             r.id,
-            r.reaction_id,
-            r.user_id,
-            r.post_id,
-        FROM PostReactions r
-        WHERE r.post_id = ?
+            r.label,
+            r.image_url
+        FROM PostReactions pr
+        LEFT JOIN Reactions r
+            ON pr.reaction_id = r.id
+        WHERE pr.post_id = ?
          """, ( post_id, ))
 
         post_reactions = []
 
         dataset = db_cursor.fetchall()
-
         for row in dataset:
-            post_reaction = PostReaction(row['id'], row['reaction_id'], row['user_id'], row['post_id'])
+            post_reaction = Reactions(row['id'], row['label'], row['image_url'])
+        
+            post_reaction.user_id = row['user_id']
 
             post_reactions.append(post_reaction.__dict__)
 

@@ -98,4 +98,6 @@ INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'con
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('4', 'Life is Python, '11.07.2022', 'https://bigthink.com/wp-content/uploads/2022/07/AdobeStock_379164614.jpeg?w=480&h=270&crop=1', 'What a stinking hole of lies', 1');
 
 INSERT INTO PostReactions ('id', 'reaction_id', 'user_id', 'post_id') VALUES (3, 1, 27, 3);
+INSERT INTO PostReactions ('id', 'reaction_id', 'user_id', 'post_id') VALUES (4, 2, 27, 3);
 INSERT INTO Reactions ('id', 'label', 'image_url') VALUES ('1', 'Big Grin', '😁')
+INSERT INTO Reactions ('id', 'label', 'image_url') VALUES ('2', 'Smile', '😃')

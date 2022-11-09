@@ -150,8 +150,9 @@ def get_posts_by_user(user_id):
     with sqlite3.connect("./db.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
+
         db_cursor.execute("""
-        SELECT 
+        SELECT
             p.id,
             p.user_id,
             p.category_id,
@@ -159,7 +160,7 @@ def get_posts_by_user(user_id):
             p.publication_date,
             p.image_url,
             p.content,
-            p.approved 
+            p.approved
         FROM Posts p
         WHERE user_id = ?
         """, (user_id, ))
