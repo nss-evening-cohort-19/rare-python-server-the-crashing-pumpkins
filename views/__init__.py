@@ -10,7 +10,8 @@ from .post_request import (
     update_post,
     create_post,
     delete_post,
-    get_posts_by_user
+    get_posts_by_user,
+    get_posts_by_follower
     )
 from .categories_request import (
     get_all_categories,
