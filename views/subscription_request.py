@@ -119,6 +119,3 @@ def update_subscription(id, new_subscription):
         return False
     else:
         return True
-
-def get_subscription_by_user(subscription_id):
-    pass
