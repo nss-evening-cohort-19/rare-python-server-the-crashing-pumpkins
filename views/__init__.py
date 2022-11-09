@@ -30,6 +30,13 @@ from .tag_request import (
     get_single_tag,
     create_tag
     )
+
+from .reaction_request import (
+    get_reactions_of_post,
+    add_reaction_to_post,
+    update_reaction_to_post,
+    remove_reaction_from_post,
+)
 from .comments_request import (
     get_all_comments,
     create_comment,
