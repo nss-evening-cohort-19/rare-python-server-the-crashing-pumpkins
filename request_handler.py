@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from views import (
-    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_all_tags, get_single_tag, create_tag
+    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, update_subscription, get_all_tags, get_single_tag, create_tag
     )
 
 
@@ -94,7 +94,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             if resource == 'posts':
                 if key == 'user_id':
                     response = f'{get_posts_by_user(value)}'
-            
+
 
 
 
@@ -105,7 +105,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         self._set_headers(201)
         content_len = int(self.headers.get('content-length', 0))
         post_body = json.loads(self.rfile.read(content_len))
-        
+
         response = ''
         resource, _ = self.parse_url()
 
@@ -123,20 +123,6 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_post = create_post(post_body)
 
             self.wfile.write(f"{new_post}".encode())
-            
-
-        new_category = None
-
-        if resource == 'categories':
-            new_category = create_categories(post_body)
-
-            self.wfile.write(f"{new_category}".encode())
-
-        if resource == 'subscriptions':
-            new_subscription = create_subscription(post_body)
-
-            self.wfile.write(f"{new_subscription}".encode())
-
 
 
         new_category = None
@@ -150,12 +136,26 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_subscription = create_subscription(post_body)
 
             self.wfile.write(f"{new_subscription}".encode())
-            
+
+
+
+        new_category = None
+
+        if resource == 'categories':
+            new_category = create_categories(post_body)
+
+            self.wfile.write(f"{new_category}".encode())
+
+        if resource == 'subscriptions':
+            new_subscription = create_subscription(post_body)
+
+            self.wfile.write(f"{new_subscription}".encode())
+
         new_tag = None
-        
+
         if resource == 'tags':
             new_tag = create_tag(post_body)
-            
+
             self.wfile.write(f"{new_tag}". encode())
 
 
@@ -167,17 +167,17 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         (resource, id) = self.parse_url()
         success = False
-        
+
+        if resource == 'posts':
+            success = update_post(id, post_body)
+        if resource == 'subscriptions':
+            success = update_subscription(id, post_body)
+
         if success:
             self._set_headers(204)
         else:
             self._set_headers(404)
-        
-        if resource == 'posts':
-            success = update_post(id, post_body)
-            
-           
-        
+
         self.wfile.write(''.encode())
 
     def do_DELETE(self):

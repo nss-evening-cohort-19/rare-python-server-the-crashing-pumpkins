@@ -62,17 +62,17 @@ def create_tag(new_tag):
     """docstring"""
     with sqlite3.connect('./db.sqlite3') as conn:
         db_cursor = conn.cursor()
-        
+
         db_cursor.execute("""
         INSERT INTO Tags
             ( label )
         VALUES
             ( ? )
-                          """, ( 
-                            new_tag['label'],
-                            
+                    """, (
+                    new_tag['label'],
+
         ))
-        
+
         id = db_cursor.lastrowid
         new_tag['id'] = id
     return json.dumps(new_tag)

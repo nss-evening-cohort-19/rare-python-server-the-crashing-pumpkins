@@ -21,7 +21,8 @@ from .categories_request import (
 from .subscription_request import (
     get_all_subscriptions,
     create_subscription,
-    get_single_subscription
+    get_single_subscription,
+    update_subscription
     )
 from .tag_request import (
     get_all_tags,

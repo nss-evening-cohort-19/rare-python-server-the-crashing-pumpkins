@@ -134,3 +134,6 @@ FROM Categories c
 LEFT JOIN Posts p
     ON p.id = p.category_id
     WHERE label = 'Jo Mama'
+
+SELECT *
+FROM Users u
