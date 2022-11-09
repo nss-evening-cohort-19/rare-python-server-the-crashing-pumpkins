@@ -22,7 +22,8 @@ from .subscription_request import (
     get_all_subscriptions,
     create_subscription,
     get_single_subscription,
-    update_subscription
+    update_subscription,
+    delete_subscription
     )
 from .tag_request import (
     get_all_tags,
@@ -36,3 +37,10 @@ from .reaction_request import (
     update_reaction_to_post,
     remove_reaction_from_post,
 )
+from .comments_request import (
+    get_all_comments,
+    create_comment,
+    get_single_comment,
+    update_comment,
+    delete_comment
+    )
