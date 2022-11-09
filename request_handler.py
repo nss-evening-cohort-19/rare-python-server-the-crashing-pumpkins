@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from views import (
-    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, update_subscription, get_all_tags, get_single_tag, create_tag
+    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, update_subscription, get_all_tags, get_single_tag, create_tag, delete_tag, update_tag
     )
 
 
@@ -172,6 +172,8 @@ class HandleRequests(BaseHTTPRequestHandler):
             success = update_post(id, post_body)
         if resource == 'subscriptions':
             success = update_subscription(id, post_body)
+        if resource == 'tags':
+            success = update_tag(id, post_body)
 
         if success:
             self._set_headers(204)
@@ -196,6 +198,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "categories":
             delete_categories(id)
+            
+        if resource == "tags":
+            delete_tag(id)
 
         # Encode the new post and send in response
             self.wfile.write("".encode())
