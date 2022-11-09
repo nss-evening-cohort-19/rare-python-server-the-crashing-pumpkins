@@ -3,3 +3,4 @@ from .post import Posts
 from .categories import Categories
 from .subscription import Subscriptions
 from .tag import Tags
+from .comments import Comments
