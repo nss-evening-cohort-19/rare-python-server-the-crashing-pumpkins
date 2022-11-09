@@ -23,3 +23,10 @@ from .subscription_request import (
     create_subscription,
     get_single_subscription
     )
+
+from .reaction_request import (
+    get_reactions_of_post,
+    add_reaction_to_post,
+    update_reaction_to_post,
+    remove_reaction_from_post,
+)
