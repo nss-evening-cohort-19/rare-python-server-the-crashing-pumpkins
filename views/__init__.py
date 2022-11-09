@@ -22,10 +22,18 @@ from .subscription_request import (
     get_all_subscriptions,
     create_subscription,
     get_single_subscription,
-    update_subscription
+    update_subscription,
+    delete_subscription
     )
 from .tag_request import (
     get_all_tags,
     get_single_tag,
     create_tag
+    )
+from .comments_request import (
+    get_all_comments,
+    create_comment,
+    get_single_comment,
+    update_comment,
+    delete_comment
     )

@@ -137,3 +137,9 @@ LEFT JOIN Posts p
 
 SELECT *
 FROM Users u
+
+INSERT INTO Comments ('author_id', 'post_id', 'content') Values (1, 23,'If I were a turtle')
+
+INSERT INTO Comments ('author_id', 'post_id', 'content') Values (2, 24,'If I were a beeeeerrrr')
+
+INSERT INTO Comments ('author_id', 'post_id', 'content') Values (3, 25,'I am a whiskey')
