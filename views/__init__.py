@@ -29,8 +29,8 @@ from .tag_request import (
     get_all_tags,
     get_single_tag,
     create_tag,
-    update_tag,
-    delete_tag
+    delete_tag,
+    update_tag
     )
 
 from .reaction_request import (
