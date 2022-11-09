@@ -175,3 +175,39 @@ def get_posts_by_user(user_id):
             posts.append(post.__dict__)
 
     return json.dumps(posts)
+
+def get_posts_by_follower(follower_id):
+    with sqlite3.connect("./db.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            s.id as s_id,
+            s.follower_id,
+            s.author_id,
+            s.created_on,
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved
+        FROM Subscriptions s
+        LEFT JOIN Posts p
+            ON s.author_id = p.user_id
+        WHERE s.follower_id = ?
+        """, (follower_id, ))
+
+        posts = []
+
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+            post = Posts(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
+
+            posts.append(post.__dict__)
+
+    return json.dumps(posts)

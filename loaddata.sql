@@ -143,3 +143,11 @@ INSERT INTO Comments ('author_id', 'post_id', 'content') Values (1, 23,'If I wer
 INSERT INTO Comments ('author_id', 'post_id', 'content') Values (2, 24,'If I were a beeeeerrrr')
 
 INSERT INTO Comments ('author_id', 'post_id', 'content') Values (3, 25,'I am a whiskey')
+
+INSERT INTO Users ('id', 'first_name', 'last_name', 'username', 'email', 'password', 'bio', 'created_on') VALUES (91, 'Rob', 'Thomas', 'Matchbox21', 'realworld@mail.com', 'm00n', 'The note she wrote', '11.11.2011');
+INSERT INTO Users ('id', 'first_name', 'last_name', 'username', 'email', 'password', 'bio', 'created_on') VALUES (92, 'Frank', 'Ocean', 'Hazbeen', 'channelgreen@mail.com', 'm00n', 'We used to have things in common', '12.12.2012');
+INSERT INTO Subscriptions ('follower_id', 'author_id', 'created_on') Values (1, 91,'3.3.2013');
+INSERT INTO Subscriptions ('follower_id', 'author_id', 'created_on') Values (1, 92,'4.4.2014');
+INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('91', '1', 'Rightwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its a direction people like', 1);
+INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('91', '1', 'Leftwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its a direction people are suspicious of', 1);
+INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('92', '1', 'Upwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its the direction to Gods front porch', 1);
