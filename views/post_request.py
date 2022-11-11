@@ -185,3 +185,45 @@ def get_posts_by_follower(follower_id):
             posts.append(post.__dict__)
 
     return json.dumps(posts)
+
+def get_post_by_tag(tag_label):
+    """_summary_
+
+    Args:
+        tag_id (_type_): _description_
+    """
+    with sqlite3.connect("./db.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        SELECT 
+            pt.id as gangsterspairofdice,
+            pt.post_id,
+            pt.tag_id,
+            t.id,
+            t.label,
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved
+        FROM PostTags pt
+        LEFT JOIN Tags t
+            ON pt.tag_id = t.id
+        LEFT JOIN Posts p
+            ON pt.post_id = p.id
+        WHERE t.label = ?
+        """, ( tag_label, ))
+        
+        posts = []
+        
+        dataset = db_cursor.fetchall()
+        for row in dataset:
+            post = Posts(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
+            
+            posts.append(post.__dict__)
+            
+    return json.dumps(posts)
