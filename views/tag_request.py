@@ -107,4 +107,3 @@ def update_tag(id, fresh_tag):
         return False
     else:
         return True
-    

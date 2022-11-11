@@ -11,7 +11,8 @@ from .post_request import (
     create_post,
     delete_post,
     get_posts_by_user,
-    get_posts_by_follower
+    get_posts_by_follower,
+    get_post_by_tag
     )
 from .categories_request import (
     get_all_categories,

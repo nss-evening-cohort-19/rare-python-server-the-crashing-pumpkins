@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from views import (
-    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_posts_by_follower, update_subscription, delete_subscription, get_all_tags, get_single_tag, create_tag, delete_tag, update_tag, get_all_comments, get_single_comment, create_comment, delete_comment, update_comment, get_reactions_of_post
+    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_posts_by_follower, update_subscription, delete_subscription, get_all_tags, get_single_tag, create_tag, delete_tag, update_tag, get_all_comments, get_single_comment, create_comment, delete_comment, update_comment, get_reactions_of_post, get_post_by_tag
     )
 
 
@@ -102,11 +102,11 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f'{get_posts_by_user(value)}'
                 if key == 'follower_id':
                     response = f'{get_posts_by_follower(value)}'
+                if key == 'tag_label':
+                    response = f'{get_post_by_tag(value)}'
             if resource == 'post_reactions':
                 if key == 'post_id':
                     response = f'{get_reactions_of_post(value)}'
-
-
 
 
         self.wfile.write(response.encode())
