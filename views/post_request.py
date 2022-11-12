@@ -196,7 +196,7 @@ def get_post_by_tag(tag_label):
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
         db_cursor.execute("""
-        SELECT 
+        SELECT
             pt.id as gangsterspairofdice,
             pt.post_id,
             pt.tag_id,
@@ -217,13 +217,50 @@ def get_post_by_tag(tag_label):
             ON pt.post_id = p.id
         WHERE t.label = ?
         """, ( tag_label, ))
-        
+
         posts = []
-        
+
         dataset = db_cursor.fetchall()
         for row in dataset:
             post = Posts(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
-            
+
             posts.append(post.__dict__)
-            
+
+    return json.dumps(posts)
+
+def get_all_posts_by_category(category_label):
+    """_summary_
+
+    Args:
+        tag_id (_type_): _description_
+    """
+    with sqlite3.connect("./db.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        SELECT
+            c.id as c_id,
+            c.label,
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved
+        FROM Categories c
+        LEFT JOIN Posts p
+            ON c.id = p.category_id
+        WHERE c.label = ?
+        """, ( category_label, ))
+
+        posts = []
+
+        dataset = db_cursor.fetchall()
+        for row in dataset:
+            post = Posts(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
+
+            posts.append(post.__dict__)
+
     return json.dumps(posts)

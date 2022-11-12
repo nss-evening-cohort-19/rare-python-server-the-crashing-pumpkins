@@ -143,10 +143,10 @@ INSERT INTO Subscriptions ('follower_id', 'author_id', 'created_on') Values (1, 
 INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('91', '1', 'Rightwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its a direction people like', 1);
 INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('91', '1', 'Leftwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its a direction people are suspicious of', 1);
 INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('92', '1', 'Upwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its the direction to Gods front porch', 1);
-INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('4', '1')
-INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('4', '3')
-        SELECT 
-            
+INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('7', '1')
+INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('7', '3')
+        SELECT
+
             pt.post_id,
             pt.tag_id,
             t.id,
@@ -165,3 +165,19 @@ INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('4', '3')
         LEFT JOIN Posts p
             ON pt.post_id = p.id
         WHERE t.label = 'stinky'
+
+        SELECT
+            c.id,
+            c.label,
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved
+        FROM Categories c
+        LEFT JOIN Posts p
+            ON c.id = p.category_id
+        WHERE c.label = 'Mood'
