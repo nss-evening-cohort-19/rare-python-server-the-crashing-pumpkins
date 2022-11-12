@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Posts, Reactions, PostReaction
+from models import Reactions, PostReaction
 
 def get_reactions_of_post(post_id):
     with sqlite3.connect('./db.sqlite3') as conn:
@@ -26,18 +26,46 @@ def get_reactions_of_post(post_id):
         dataset = db_cursor.fetchall()
         for row in dataset:
             post_reaction = Reactions(row['id'], row['label'], row['image_url'])
-        
+
             post_reaction.user_id = row['user_id']
 
             post_reactions.append(post_reaction.__dict__)
 
     return json.dumps(post_reactions)
 
-def add_reaction_to_post():
-    pass
+def create_reaction(new_reaction):
+    with sqlite3.connect('./db.sqlite3') as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
 
-def update_reaction_to_post():
-    pass
+        db_cursor.execute("""
+        INSERT INTO Reactions(label, image_url)
+        VALUES (?, ?)
+        """, (
+            new_reaction['label'],
+            new_reaction['image_url']
+        ))
+        
+        id = db_cursor.lastrowid
+        new_reaction['id'] = id
+        
+    return json.dumps(new_reaction)
 
-def remove_reaction_from_post():
-    pass
+def create_post_reaction(new_preaction):
+    with sqlite3.connect('./db.sqlite3') as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO PostReactions (user_id, reaction_id, post_id)
+        VALUES (?, ?, ?)
+        """, (
+            new_preaction['user_id'],
+            new_preaction['reaction_id'],
+            new_preaction['post_id']
+        ))
+
+        id = db_cursor.lastrowid
+        new_preaction['id'] = id
+
+    return json.dumps(new_preaction)

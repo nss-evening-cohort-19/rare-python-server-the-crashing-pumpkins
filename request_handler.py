@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from views import (
-    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_posts_by_follower, update_subscription, delete_subscription, get_all_tags, get_single_tag, create_tag, delete_tag, update_tag, get_all_comments, get_single_comment, create_comment, delete_comment, update_comment, get_reactions_of_post
+    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_posts_by_follower, update_subscription, delete_subscription, get_all_tags, get_single_tag, create_tag, delete_tag, update_tag, get_all_comments, get_single_comment, create_comment, delete_comment, update_comment, get_reactions_of_post, create_reaction, create_post_reaction
     )
 
 
@@ -126,7 +126,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             response = create_user(post_body)
 
 
-            self.wfile.write(response.encode())
+        self.wfile.write(response.encode())
 
         new_post = None
 
@@ -173,6 +173,16 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == 'comments':
             new_comment = create_comment(post_body)
+
+            self.wfile.write(f"{new_comment}". encode())
+            
+        if resource == 'reactions':
+            new_comment = create_reaction(post_body)
+
+            self.wfile.write(f"{new_comment}". encode())
+            
+        if resource == 'postreactions':
+            new_comment = create_post_reaction(post_body)
 
             self.wfile.write(f"{new_comment}". encode())
 

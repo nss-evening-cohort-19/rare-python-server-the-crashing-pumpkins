@@ -37,7 +37,7 @@ def login_user(user):
                 'valid': False
             }
 
-        return json.dumps(response)
+    return json.dumps(response)
 
 
 def create_user(user):
@@ -54,7 +54,7 @@ def create_user(user):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        Insert into Users (first_name, last_name, username, email, password, bio, created_on, active) values (?, ?, ?, ?, ?, ?, ?, 1, 1)
+        Insert into Users (first_name, last_name, username, email, password, bio, created_on, active) values (?, ?, ?, ?, ?, ?, ?, ?, 1)
         """, (
             user['first_name'],
             user['last_name'],
@@ -62,15 +62,17 @@ def create_user(user):
             user['email'],
             user['password'],
             user['bio'],
-            datetime.now()
+            user['profile_image_url'],
+            datetime.now(),
+            user['acive']
         ))
 
         id = db_cursor.lastrowid
 
-        return json.dumps({
+    return json.dumps({
             'token': id,
             'valid': True
-        })
+    })
 
 def get_all_users():
     """docstring"""
