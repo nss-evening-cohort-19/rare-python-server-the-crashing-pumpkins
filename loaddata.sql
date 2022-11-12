@@ -85,7 +85,7 @@ CREATE TABLE "Categories" (
   "label" varchar
 );
 
-INSERT INTO Users ('id', 'first_name', 'last_name', 'username', 'email', 'password', 'bio', 'created_on') VALUES (27, 'Rob', 'Zombie', 'Zomboy', 'robo@mail.com', 'm00n', 'More human than human', 3);
+INSERT INTO Users ('id', 'first_name', 'last_name', 'username', 'email', 'password', 'profile_image_url', 'bio', 'created_on') VALUES (27, 'Rob', 'Zombie', 'Zomboy', 'robo@mail.com', 'm00n', 'https://images.unsplash.com/photo-1572527561845-bf58d45376bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8em9tYmllfGVufDB8fDB8fA%3D%3D&w=1000&q=80', 'More human than human', 3);
 INSERT INTO Categories ('label') VALUES ('News');
 INSERT INTO Categories ('label') VALUES ('Mood');
 INSERT INTO Categories ('label') VALUES ('Intention');
@@ -145,6 +145,7 @@ INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image
 INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('92', '1', 'Upwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its the direction to Gods front porch', 1);
 INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('7', '1')
 INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('7', '3')
+
         SELECT
 
             pt.post_id,
@@ -181,3 +182,27 @@ INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('7', '3')
         LEFT JOIN Posts p
             ON c.id = p.category_id
         WHERE c.label = 'Mood'
+
+       SELECT
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.username
+        FROM Users u
+        ORDER BY username ASC
+
+UPDATE Users
+SET active = 1
+WHERE username = 'dadbod'
+
+UPDATE Users
+SET profile_image_url = 'https://m.media-amazon.com/images/I/51XVZYDA0ZL._AC_SY580_.jpg'
+WHERE username = 'usaxary25'
+
+UPDATE Users
+SET profile_image_url = 'https://i.pinimg.com/736x/a5/c1/f9/a5c1f9dbaffe6faff24eaff365b2d6dc--funny-poses.jpg'
+WHERE username = 'sdsdf'
+
+UPDATE Users
+SET active = 1
+WHERE username = 'Zomboy'
