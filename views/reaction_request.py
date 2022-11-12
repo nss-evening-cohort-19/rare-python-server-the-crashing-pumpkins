@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Posts, Reactions, PostReaction
+from models import Reactions, Posts, Users
 
 def get_reactions_of_post(post_id):
     with sqlite3.connect('./db.sqlite3') as conn:
@@ -26,7 +26,7 @@ def get_reactions_of_post(post_id):
         dataset = db_cursor.fetchall()
         for row in dataset:
             post_reaction = Reactions(row['id'], row['label'], row['image_url'])
-        
+
             post_reaction.user_id = row['user_id']
 
             post_reactions.append(post_reaction.__dict__)

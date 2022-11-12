@@ -97,8 +97,8 @@ INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'con
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('2', 'Mood', '11.06.2022', 'https://production.listennotes.com/podcasts/bear-psychology-podcast-dr-anna-baranowsky-2WFOMyLS8tl-zluxvHOr3Sb.300x300.jpg', 'I am feeling dickish today', 1)
 INSERT INTO Posts ('category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('4', 'Life is Python', '11.07.2022', 'https://bigthink.com/wp-content/uploads/2022/07/AdobeStock_379164614.jpeg?w=480&h=270&crop=1', 'What a stinking hole of lies', 1);
 
-INSERT INTO PostReactions ('id', 'reaction_id', 'user_id', 'post_id') VALUES (3, 1, 27, 3);
-INSERT INTO PostReactions ('id', 'reaction_id', 'user_id', 'post_id') VALUES (4, 2, 27, 3);
+INSERT INTO PostReactions ('id', 'reaction_id', 'user_id', 'post_id') VALUES (3, 1, 1, 2);
+INSERT INTO PostReactions ('id', 'reaction_id', 'user_id', 'post_id') VALUES (4, 2, 2, 5);
 INSERT INTO Reactions ('id', 'label', 'image_url') VALUES ('1', 'Big Grin', '😁')
 INSERT INTO Reactions ('id', 'label', 'image_url') VALUES ('2', 'Smile', '😃')
 
@@ -143,10 +143,10 @@ INSERT INTO Subscriptions ('follower_id', 'author_id', 'created_on') Values (1, 
 INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('91', '1', 'Rightwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its a direction people like', 1);
 INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('91', '1', 'Leftwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its a direction people are suspicious of', 1);
 INSERT INTO Posts ('user_id', 'category_id', 'title', 'publication_date', 'image_url', 'content', 'approved') VALUES ('92', '1', 'Upwards', '11.04.2022', 'https://static.vecteezy.com/system/resources/previews/006/828/449/original/face-emoji-expressing-a-happy-mood-free-vector.jpg', 'Its the direction to Gods front porch', 1);
-INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('4', '1')
-INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('4', '3')
-        SELECT 
-            
+INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('7', '1')
+INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('7', '3')
+        SELECT
+
             pt.post_id,
             pt.tag_id,
             t.id,
@@ -165,3 +165,19 @@ INSERT INTO PostTags ('post_id', 'tag_id') VALUES ('4', '3')
         LEFT JOIN Posts p
             ON pt.post_id = p.id
         WHERE t.label = 'stinky'
+
+        SELECT
+            c.id,
+            c.label,
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved
+        FROM Categories c
+        LEFT JOIN Posts p
+            ON c.id = p.category_id
+        WHERE c.label = 'Mood'
