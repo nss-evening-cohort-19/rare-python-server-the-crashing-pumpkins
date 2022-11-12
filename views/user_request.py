@@ -54,7 +54,7 @@ def create_user(user):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        Insert into Users (first_name, last_name, username, email, password, bio, created_on, active) values (?, ?, ?, ?, ?, ?, ?, 1, 1)
+        Insert into Users (first_name, last_name, username, email, password, bio, profile_image_url, created_on, active) values (?, ?, ?, ?, ?, ?, ?, ?, 1)
         """, (
             user['first_name'],
             user['last_name'],
@@ -62,6 +62,7 @@ def create_user(user):
             user['email'],
             user['password'],
             user['bio'],
+            user['profile_image_url'],
             datetime.now()
         ))
 
@@ -155,29 +156,3 @@ def delete_user(id):
         DELETE FROM users
         WHERE id = ?
         """, (id, ))
-
-def get_user_details():
-    pass
-    # with sqlite3.connect('./db.sqlite3') as conn:
-
-    #     # Just use these. It's a Black Box.
-    #     conn.row_factory = sqlite3.Row
-    #     db_cursor = conn.cursor()
-
-    #     # Write the SQL query to get the information you want
-    #     db_cursor.execute("""
-    #     SELECT
-    #         u.first_name,
-    #         u.last_name,
-    #         u.email,
-    #         u.username
-    #     FROM Users u
-    #     """)
-
-    #     # Convert rows of data into a Python list
-    #     data = db_cursor.fetchall()
-
-    #     user = Users(data['id'], data['username'], data['first_name'], data['last_name'],
-    #     data['email'])
-
-    # return json.dumps(user.__dict__)

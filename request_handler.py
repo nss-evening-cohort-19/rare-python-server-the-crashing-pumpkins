@@ -128,9 +128,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             response = create_user(post_body)
 
 
-            self.wfile.write(response.encode())
+        self.wfile.write(response.encode())
 
-        new_post = None
+        # new_post = None
 
         if resource == 'posts':
             new_post = create_post(post_body)
@@ -138,7 +138,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             self.wfile.write(f"{new_post}".encode())
 
 
-        new_category = None
+        # new_category = None
 
         if resource == 'categories':
             new_category = create_categories(post_body)
@@ -150,21 +150,21 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             self.wfile.write(f"{new_subscription}".encode())
 
-        new_category = None
+        # new_category = None
 
         if resource == 'categories':
             new_category = create_categories(post_body)
 
             self.wfile.write(f"{new_category}".encode())
 
-        new_tag = None
+        # new_tag = None
 
         if resource == 'tags':
             new_tag = create_tag(post_body)
 
             self.wfile.write(f"{new_tag}". encode())
 
-        new_comment = None
+        # new_comment = None
 
         if resource == 'comments':
             new_comment = create_comment(post_body)
