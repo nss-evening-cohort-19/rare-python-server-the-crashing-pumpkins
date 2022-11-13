@@ -2,7 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from views import (
-    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_posts_by_follower, update_subscription, delete_subscription, get_all_tags, get_single_tag, create_tag, delete_tag, update_tag, get_all_comments, get_single_comment, create_comment, delete_comment, update_comment, get_reactions_of_post, create_reaction, create_post_reaction
+    create_user, login_user, get_all_users, get_single_user, get_all_posts, get_single_post, delete_post, create_post, get_all_categories, get_single_categories, create_categories, delete_categories, get_all_subscriptions,  create_subscription, get_single_subscription, update_post, get_posts_by_user, get_posts_by_follower, update_subscription, delete_subscription, get_all_tags, get_single_tag, create_tag, delete_tag, update_tag, get_all_comments, get_single_comment, create_comment, delete_comment, update_comment, get_reactions_of_post, get_post_by_tag, get_all_posts_by_category, create_reaction, create_post_reaction
     )
 
 
@@ -102,11 +102,13 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f'{get_posts_by_user(value)}'
                 if key == 'follower_id':
                     response = f'{get_posts_by_follower(value)}'
+                if key == 'tag_label':
+                    response = f'{get_post_by_tag(value)}'
+                if key == 'category_label':
+                    response = f'{get_all_posts_by_category(value)}'
             if resource == 'post_reactions':
                 if key == 'post_id':
                     response = f'{get_reactions_of_post(value)}'
-
-
 
 
         self.wfile.write(response.encode())
@@ -128,7 +130,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         self.wfile.write(response.encode())
 
-        new_post = None
+        # new_post = None
 
         if resource == 'posts':
             new_post = create_post(post_body)
@@ -136,7 +138,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             self.wfile.write(f"{new_post}".encode())
 
 
-        new_category = None
+        # new_category = None
 
         if resource == 'categories':
             new_category = create_categories(post_body)
@@ -148,28 +150,21 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             self.wfile.write(f"{new_subscription}".encode())
 
-        new_category = None
+        # new_category = None
 
         if resource == 'categories':
             new_category = create_categories(post_body)
 
             self.wfile.write(f"{new_category}".encode())
 
-        new_subscription = None
-
-        if resource == 'subscriptions':
-            new_subscription = create_subscription(post_body)
-
-            self.wfile.write(f"{new_subscription}".encode())
-
-        new_tag = None
+        # new_tag = None
 
         if resource == 'tags':
             new_tag = create_tag(post_body)
 
             self.wfile.write(f"{new_tag}". encode())
 
-        new_comment = None
+        # new_comment = None
 
         if resource == 'comments':
             new_comment = create_comment(post_body)
@@ -231,7 +226,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "categories":
             delete_categories(id)
-            
+
         if resource == "subscriptions":
             delete_subscription(id)
 

@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Reactions, PostReaction
+from models import Reactions
 
 def get_reactions_of_post(post_id):
     with sqlite3.connect('./db.sqlite3') as conn:

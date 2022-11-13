@@ -81,7 +81,7 @@ def delete_tag(id):
     """String of the Doc"""
     with sqlite3.connect("./db.sqlite3") as conn:
         db_cursor = conn.cursor()
-        
+
         db_cursor.execute("""
         DELETE FROM Tags
         WHERE id = ?
@@ -98,13 +98,12 @@ def update_tag(id, fresh_tag):
         WHERE id = ?
         """, (
             fresh_tag['label'],
-            id, 
+            id,
         ))
-        
+
         rows_affected = db_cursor.rowcount
-        
+
     if rows_affected == 0:
         return False
     else:
         return True
-    
