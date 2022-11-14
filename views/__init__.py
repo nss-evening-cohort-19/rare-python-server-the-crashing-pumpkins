@@ -7,10 +7,10 @@ from .user_request import (
 from .post_request import (
     get_all_posts,
     get_single_post,
+    get_posts_by_user,
     update_post,
     create_post,
     delete_post,
-    get_posts_by_user,
     get_posts_by_follower,
     get_post_by_tag,
     get_all_posts_by_category
