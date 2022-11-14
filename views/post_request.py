@@ -146,9 +146,48 @@ def update_post(id, new_post):
     else:
         return True
 
-def get_posts_by_user(user_id):
+def get_posts_by_user(username):
+    """duckstring"""
+    with sqlite3.connect("./db.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
 
-    pass
+        db_cursor.execute("""
+        SELECT
+            u.id as u_id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.bio,
+            u.profile_image_url,
+            u.created_on,
+            u.active,
+            u.username,
+            u.password,
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved
+        FROM Users u
+        LEFT JOIN Posts p
+            ON u.id = p.user_id
+        WHERE u.username = ?
+        """, (username, ))
+
+        posts = []
+
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+            post = Posts(row['id'], row['user_id'], row['category_id'], row['title'], row['publication_date'], row['image_url'], row['content'], row['approved'])
+
+            posts.append(post.__dict__)
+
+    return json.dumps(posts)
 
 def get_posts_by_follower(follower_id):
     with sqlite3.connect("./db.sqlite3") as conn:

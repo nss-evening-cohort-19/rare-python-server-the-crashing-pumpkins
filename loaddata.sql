@@ -206,3 +206,23 @@ WHERE username = 'sdsdf'
 UPDATE Users
 SET active = 1
 WHERE username = 'Zomboy'
+
+        SELECT
+            u.id,
+            u.first_name,
+            u.last_name,
+            u.username,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content
+        FROM Users u
+        LEFT JOIN Posts p
+            ON u.id = p.user_id
+        WHERE u.username = 'dadbod'
+
+UPDATE Posts
+SET user_id = 27
+WHERE title = 'Leftwards'
