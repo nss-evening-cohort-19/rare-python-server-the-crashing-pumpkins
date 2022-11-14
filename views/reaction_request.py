@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Reactions, Posts, Users
+from models import Reactions
 
 def get_reactions_of_post(post_id):
     with sqlite3.connect('./db.sqlite3') as conn:
@@ -33,11 +33,39 @@ def get_reactions_of_post(post_id):
 
     return json.dumps(post_reactions)
 
-def add_reaction_to_post():
-    pass
+def create_reaction(new_reaction):
+    with sqlite3.connect('./db.sqlite3') as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
 
-def update_reaction_to_post():
-    pass
+        db_cursor.execute("""
+        INSERT INTO Reactions(label, image_url)
+        VALUES (?, ?)
+        """, (
+            new_reaction['label'],
+            new_reaction['image_url']
+        ))
+        
+        id = db_cursor.lastrowid
+        new_reaction['id'] = id
+        
+    return json.dumps(new_reaction)
 
-def remove_reaction_from_post():
-    pass
+def create_post_reaction(new_preaction):
+    with sqlite3.connect('./db.sqlite3') as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO PostReactions (user_id, reaction_id, post_id)
+        VALUES (?, ?, ?)
+        """, (
+            new_preaction['user_id'],
+            new_preaction['reaction_id'],
+            new_preaction['post_id']
+        ))
+
+        id = db_cursor.lastrowid
+        new_preaction['id'] = id
+
+    return json.dumps(new_preaction)

@@ -37,7 +37,7 @@ def login_user(user):
                 'valid': False
             }
 
-        return json.dumps(response)
+    return json.dumps(response)
 
 
 def create_user(user):
@@ -68,10 +68,10 @@ def create_user(user):
 
         id = db_cursor.lastrowid
 
-        return json.dumps({
+    return json.dumps({
             'token': id,
             'valid': True
-        })
+    })
 
 def get_all_users():
     """docstring"""
